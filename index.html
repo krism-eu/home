@@ -1,390 +1,371 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>Home</title>
+<title>Home</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <style>
-    :root{
-      --bg:#070b14;
-      --card:rgba(15,18,28,.52);
-      --card-hover:rgba(22,28,42,.72);
-      --border:rgba(255,255,255,.07);
-      --text:#f5f7fb;
-      --muted:#98a2b3;
-      --accent:#60a5fa;
-      --shadow:0 10px 35px rgba(0,0,0,.35);
-      --radius:20px;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
+<style>
 
-    html,body{
-      height:100%;
-    }
+:root{
+  --bg:#070b14;
+  --card:rgba(14,18,28,.54);
+  --card-hover:rgba(20,25,38,.78);
+  --border:rgba(255,255,255,.07);
+  --text:#f5f7fb;
+  --muted:#98a2b3;
+  --accent:#60a5fa;
+  --radius:22px;
+}
 
-    body{
-      font-family:'Inter',system-ui,sans-serif;
-      color:var(--text);
-      overflow-x:hidden;
-      background:var(--bg);
-      position:relative;
-    }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-    /* BACKGROUND */
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  min-height:100vh;
+  color:var(--text);
+  overflow-x:hidden;
+  background:#050810;
+}
 
-    body::before{
-      content:'';
-      position:fixed;
-      inset:0;
-      background:
-        url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80')
-        center/cover no-repeat;
-      animation:bgMove 40s ease-in-out infinite alternate;
-      transform:scale(1);
-      z-index:-3;
-    }
+/* BG */
 
-    body::after{
-      content:'';
-      position:fixed;
-      inset:0;
-      background:
-        radial-gradient(circle at top left, rgba(96,165,250,.12), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(59,130,246,.08), transparent 25%),
-        rgba(3,6,11,.62);
-      backdrop-filter:blur(2px);
-      z-index:-2;
-    }
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80')
+    center/cover no-repeat;
+  animation:bgMove 40s ease-in-out infinite alternate;
+  transform:scale(1);
+  z-index:-3;
+}
 
-    @keyframes bgMove{
-      from{
-        transform:scale(1);
-      }
-      to{
-        transform:scale(1.08);
-      }
-    }
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at top left, rgba(96,165,250,.12), transparent 30%),
+    rgba(0,0,0,.55);
+  backdrop-filter:blur(3px);
+  z-index:-2;
+}
 
-    .app{
-      width:min(1180px,92%);
-      margin:auto;
-      padding:42px 0 60px;
-    }
+@keyframes bgMove{
+  from{ transform:scale(1); }
+  to{ transform:scale(1.06); }
+}
 
-    /* HEADER */
+.app{
+  width:min(1350px,94%);
+  margin:auto;
+  padding:34px 0 40px;
+}
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:20px;
-      margin-bottom:28px;
-      flex-wrap:wrap;
-    }
+/* TOPBAR */
 
-    .hero h1{
-      font-size:2rem;
-      font-weight:700;
-      letter-spacing:-1px;
-      margin-bottom:8px;
-    }
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
 
-    .hero p{
-      color:var(--muted);
-      font-size:.95rem;
-    }
+.hero h1{
+  font-size:1.9rem;
+  letter-spacing:-1px;
+  margin-bottom:6px;
+}
 
-    .meta{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      flex-wrap:wrap;
-    }
+.hero p{
+  color:var(--muted);
+  font-size:.92rem;
+}
 
-    .glass{
-      background:var(--card);
-      border:1px solid var(--border);
-      backdrop-filter:blur(18px);
-      -webkit-backdrop-filter:blur(18px);
-      box-shadow:var(--shadow);
-    }
+.meta{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
 
-    .weather,
-    .clock,
-    .refresh{
-      border-radius:14px;
-      padding:.85rem 1rem;
-      font-size:.88rem;
-      color:#dbe4f0;
-    }
+.glass{
+  background:var(--card);
+  border:1px solid var(--border);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-radius:16px;
+}
 
-    .refresh{
-      cursor:pointer;
-      transition:.25s;
-      user-select:none;
-    }
+.weather,
+.clock,
+.refresh{
+  padding:.8rem 1rem;
+  font-size:.85rem;
+  color:#e5e7eb;
+}
 
-    .refresh:hover{
-      background:var(--card-hover);
-      transform:translateY(-1px);
-    }
+.refresh{
+  cursor:pointer;
+  transition:.25s;
+}
 
-    /* TOP STORY */
+.refresh:hover{
+  background:var(--card-hover);
+}
 
-    .top-story{
-      padding:28px;
-      border-radius:28px;
-      margin-bottom:28px;
-      position:relative;
-      overflow:hidden;
-    }
+/* TOP STORY */
 
-    .top-story::before{
-      content:'TOP STORY';
-      position:absolute;
-      top:18px;
-      right:20px;
-      font-size:.7rem;
-      letter-spacing:.18em;
-      color:rgba(255,255,255,.35);
-    }
+.top-story{
+  padding:24px 28px;
+  margin-bottom:20px;
+  overflow:hidden;
+  position:relative;
+}
 
-    .top-source{
-      color:var(--accent);
-      font-size:.82rem;
-      margin-bottom:14px;
-      font-weight:600;
-    }
+.top-story::before{
+  content:'TOP STORY';
+  position:absolute;
+  top:18px;
+  right:20px;
+  font-size:.7rem;
+  letter-spacing:.18em;
+  color:rgba(255,255,255,.3);
+}
 
-    .top-title{
-      font-size:1.9rem;
-      line-height:1.15;
-      font-weight:700;
-      max-width:850px;
-      margin-bottom:12px;
-    }
+.top-source{
+  color:var(--accent);
+  font-size:.8rem;
+  margin-bottom:10px;
+  font-weight:600;
+}
 
-    .top-link{
-      text-decoration:none;
-      color:var(--text);
-    }
+.top-title{
+  font-size:1.55rem;
+  line-height:1.15;
+  font-weight:700;
+  margin-bottom:10px;
+  max-width:900px;
+}
 
-    .top-link:hover{
-      opacity:.92;
-    }
+.top-desc{
+  color:var(--muted);
+  line-height:1.45;
+  font-size:.92rem;
+  max-width:850px;
+}
 
-    .top-desc{
-      color:var(--muted);
-      line-height:1.5;
-      max-width:850px;
-      font-size:.96rem;
-    }
+.top-link{
+  color:inherit;
+  text-decoration:none;
+}
 
-    /* GRID */
+/* GRID */
 
-    .grid{
-      display:grid;
-      grid-template-columns:
-      repeat(auto-fit,minmax(250px,1fr));
-      gap:18px;
-    }
+.grid{
+  display:grid;
+  grid-template-columns:
+  repeat(auto-fit,minmax(300px,1fr));
+  gap:16px;
+}
 
-    .card{
-      border-radius:22px;
-      padding:20px;
-      transition:.28s ease;
-      position:relative;
-      overflow:hidden;
-      min-height:220px;
-    }
+.card{
+  padding:18px;
+  min-height:170px;
+  transition:.25s ease;
+}
 
-    .card:hover{
-      transform:translateY(-3px);
-      background:var(--card-hover);
-      border-color:rgba(96,165,250,.22);
-      box-shadow:
-        0 0 0 1px rgba(96,165,250,.15),
-        0 10px 35px rgba(59,130,246,.08);
-    }
+.card:hover{
+  transform:translateY(-2px);
+  background:var(--card-hover);
+  border-color:rgba(96,165,250,.2);
+  box-shadow:
+    0 0 0 1px rgba(96,165,250,.1),
+    0 8px 30px rgba(59,130,246,.08);
+}
 
-    .card-header{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      margin-bottom:18px;
-    }
+.card-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:14px;
+}
 
-    .icon{
-      width:42px;
-      height:42px;
-      border-radius:12px;
-      display:grid;
-      place-items:center;
-      background:rgba(255,255,255,.06);
-      font-size:1.2rem;
-    }
+.icon{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.06);
+  font-size:1.15rem;
+}
 
-    .card-title{
-      font-weight:600;
-      margin-bottom:3px;
-    }
+.card-title{
+  font-weight:600;
+}
 
-    .card-desc{
-      color:var(--muted);
-      font-size:.8rem;
-    }
+.card-desc{
+  font-size:.78rem;
+  color:var(--muted);
+  margin-top:2px;
+}
 
-    /* HEADLINES */
+/* HEADLINES */
 
-    .headline{
-      display:block;
-      text-decoration:none;
-      color:#eef2f7;
-      margin-bottom:14px;
-      line-height:1.38;
-      font-size:.92rem;
-      transition:.2s;
-      opacity:.92;
-    }
+.headline-main{
+  display:block;
+  text-decoration:none;
+  color:#fff;
+  font-size:.98rem;
+  font-weight:600;
+  line-height:1.4;
+  margin-bottom:12px;
+}
 
-    .headline:hover{
-      opacity:1;
-      transform:translateX(2px);
-      color:#fff;
-    }
+.headline-main:hover{
+  opacity:.9;
+}
 
-    .headline:first-child{
-      font-weight:600;
-      font-size:1rem;
-      margin-bottom:18px;
-    }
+.headline-small{
+  display:block;
+  text-decoration:none;
+  color:#cfd8e3;
+  font-size:.84rem;
+  line-height:1.45;
+  margin-bottom:10px;
+  opacity:.88;
+}
 
-    /* SKELETON */
+.headline-small:hover{
+  color:#fff;
+}
 
-    .skeleton{
-      height:14px;
-      border-radius:999px;
-      margin-bottom:14px;
-      background:
-      linear-gradient(
-        90deg,
-        rgba(255,255,255,.05),
-        rgba(255,255,255,.12),
-        rgba(255,255,255,.05)
-      );
-      background-size:200% 100%;
-      animation:shimmer 1.3s infinite;
-    }
+/* LOADING */
 
-    .skeleton:nth-child(2){
-      width:88%;
-    }
+.skeleton{
+  height:13px;
+  border-radius:999px;
+  margin-bottom:12px;
+  background:
+  linear-gradient(
+    90deg,
+    rgba(255,255,255,.05),
+    rgba(255,255,255,.12),
+    rgba(255,255,255,.05)
+  );
+  background-size:200% 100%;
+  animation:shimmer 1.2s infinite;
+}
 
-    .skeleton:nth-child(3){
-      width:72%;
-    }
+@keyframes shimmer{
+  to{
+    background-position:-200% 0;
+  }
+}
 
-    @keyframes shimmer{
-      to{
-        background-position:-200% 0;
-      }
-    }
+footer{
+  margin-top:28px;
+  text-align:center;
+  color:var(--muted);
+  font-size:.8rem;
+}
 
-    footer{
-      margin-top:34px;
-      text-align:center;
-      color:var(--muted);
-      font-size:.82rem;
-    }
+@media(max-width:700px){
 
-    @media(max-width:700px){
+  .hero h1{
+    font-size:1.5rem;
+  }
 
-      .hero h1{
-        font-size:1.5rem;
-      }
+  .top-title{
+    font-size:1.2rem;
+  }
 
-      .top-title{
-        font-size:1.35rem;
-      }
+  .top-story{
+    padding:22px;
+  }
 
-      .top-story{
-        padding:22px;
-      }
+}
 
-      .card{
-        min-height:auto;
-      }
-
-    }
-  </style>
+</style>
 </head>
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <header class="topbar">
+  <header class="topbar">
 
-      <div class="hero">
-        <h1 id="greeting">Buongiorno</h1>
-        <p>Notizie selezionate. Nessun rumore.</p>
+    <div class="hero">
+      <h1 id="greeting">Buongiorno</h1>
+      <p>Notizie selezionate. Nessun rumore.</p>
+    </div>
+
+    <div class="meta">
+
+      <div class="weather glass" id="weather">
+        Meteo...
       </div>
 
-      <div class="meta">
-        <div class="weather glass" id="weather">
-          Meteo...
-        </div>
-
-        <div class="clock glass" id="clock">
-          --
-        </div>
-
-        <div class="refresh glass" onclick="loadAll()">
-          Aggiorna
-        </div>
+      <div class="clock glass" id="clock">
+        --
       </div>
 
-    </header>
-
-    <!-- TOP STORY -->
-
-    <section class="top-story glass">
-
-      <div class="top-source" id="topSource">
-        Caricamento...
+      <div class="refresh glass" onclick="loadAll()">
+        Aggiorna
       </div>
 
-      <a id="topLink" class="top-link" target="_blank">
-        <div class="top-title" id="topTitle">
-          Recupero notizia principale...
-        </div>
-      </a>
+    </div>
 
-      <div class="top-desc" id="topDesc"></div>
+  </header>
 
-    </section>
+  <!-- TOP STORY -->
 
-    <!-- GRID -->
+  <section class="top-story glass">
 
-    <main class="grid" id="grid"></main>
+    <div class="top-source" id="topSource">
+      Caricamento...
+    </div>
 
-    <footer>
-      Dashboard personale minimal · GitHub Pages
-    </footer>
+    <a id="topLink" class="top-link" target="_blank">
+      <div class="top-title" id="topTitle">
+        Recupero notizia principale...
+      </div>
+    </a>
 
-  </div>
+    <div class="top-desc" id="topDesc"></div>
+
+  </section>
+
+  <!-- NEWS GRID -->
+
+  <main class="grid" id="grid"></main>
+
+  <footer>
+    Dashboard minimal · GitHub Pages
+  </footer>
+
+</div>
 
 <script>
+
+/*
+USA FEED CHE FUNZIONANO CON RSS2JSON
+Molti feed italiani bloccano CORS o parsing.
+Questi sono abbastanza affidabili.
+*/
 
 const RSS_API =
 'https://api.rss2json.com/v1/api.json?rss_url=';
@@ -399,38 +380,38 @@ const sources = [
 },
 
 {
-  name:'ANSA',
-  url:'https://www.ansa.it/sito/notizie/ultime_notizie/ultime_notizie.rss',
-  icon:'🌍',
-  desc:'Italia'
-},
-
-{
   name:'Wired',
-  url:'https://www.wired.it/feed/',
+  url:'https://www.wired.com/feed/rss',
   icon:'💻',
-  desc:'Tecnologia'
-},
-
-{
-  name:'Focus',
-  url:'https://www.focus.it/rss/scienza.xml',
-  icon:'🔬',
-  desc:'Scienza'
+  desc:'Tech'
 },
 
 {
   name:'Ubitennis',
   url:'https://www.ubitennis.com/feed/',
   icon:'🎾',
-  desc:'Sport'
+  desc:'Tennis'
 },
 
 {
   name:'Reuters',
   url:'https://feeds.reuters.com/reuters/worldNews',
-  icon:'🌐',
+  icon:'🌍',
   desc:'Mondo'
+},
+
+{
+  name:'The Verge',
+  url:'https://www.theverge.com/rss/index.xml',
+  icon:'⚡',
+  desc:'Innovazione'
+},
+
+{
+  name:'Ars Technica',
+  url:'https://feeds.arstechnica.com/arstechnica/index',
+  icon:'🧠',
+  desc:'Scienza & Tech'
 }
 
 ];
@@ -500,10 +481,11 @@ async function fetchFeed(feed){
 
   const data = await res.json();
 
-  if(data.status !== 'ok')
+  if(data.status !== 'ok' || !data.items?.length){
     throw new Error();
+  }
 
-  return data.items.slice(0,4);
+  return data.items.slice(0,3);
 }
 
 async function buildCards(){
@@ -514,11 +496,11 @@ async function buildCards(){
 
   sources.forEach((s,i)=>{
 
-    const div = document.createElement('div');
+    const card = document.createElement('div');
 
-    div.className = 'card glass';
+    card.className = 'card glass';
 
-    div.innerHTML = `
+    card.innerHTML = `
 
       <div class="card-header">
 
@@ -537,36 +519,54 @@ async function buildCards(){
 
     `;
 
-    grid.appendChild(div);
+    grid.appendChild(card);
 
   });
 
   for(let i=0;i<sources.length;i++){
 
     const s = sources[i];
+
     const target =
-    document.getElementById(`content-${i}`);
+      document.getElementById(`content-${i}`);
 
     try{
 
       const items = await fetchFeed(s);
 
-      target.innerHTML = items.map((item,index)=>`
+      const first = items[0];
+
+      const rest = items.slice(1);
+
+      target.innerHTML = `
 
         <a
-          class="headline"
-          href="${item.link}"
+          class="headline-main"
+          href="${first.link}"
           target="_blank"
           rel="noopener"
         >
-          ${item.title}
+          ${first.title}
         </a>
 
-      `).join('');
+        ${rest.map(item => `
+
+          <a
+            class="headline-small"
+            href="${item.link}"
+            target="_blank"
+            rel="noopener"
+          >
+            ${item.title}
+          </a>
+
+        `).join('')}
+
+      `;
 
       if(i === 0){
 
-        topStory(items[0],s);
+        topStory(first,s);
 
       }
 
@@ -575,10 +575,10 @@ async function buildCards(){
       target.innerHTML = `
         <div style="
           color:var(--muted);
-          font-size:.85rem;
+          font-size:.84rem;
           line-height:1.5;
         ">
-          Feed momentaneamente non disponibile.
+          Feed non disponibile.
         </div>
       `;
     }
@@ -599,7 +599,7 @@ function topStory(item,source){
   const clean =
     item.description
     ?.replace(/<[^>]*>/g,'')
-    ?.slice(0,180);
+    ?.slice(0,160);
 
   document.getElementById('topDesc').textContent =
     clean || 'Apri la notizia per leggere di più.';
