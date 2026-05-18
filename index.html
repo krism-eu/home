@@ -1,1 +1,128 @@
-<!DOCTYPE html><html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>News</title><style>body{font-family:system-ui,sans-serif;max-width:800px;margin:2rem auto;padding:0 1rem;background:#111;color:#eee}a{color:#8ab4f8;text-decoration:none;display:block;padding:.75rem 0;border-bottom:1px solid #333}a:hover{color:#fff}.src{font-size:.85rem;opacity:.7}</style></head><body><h1>📰 News</h1><a href="https://www.ilpost.it" target="_blank">Il Post <span class="src">→ Homepage</span></a><a href="https://www.ansa.it" target="_blank">ANSA <span class="src">→ Ultim'ora</span></a><a href="https://www.wired.it" target="_blank">Wired IT <span class="src">→ Tech</span></a><a href="https://www.ilsole24ore.com" target="_blank">Sole 24 Ore <span class="src">→ Economia</span></a></body></html>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La Mia Home</title>
+  <style>
+    :root {
+      --bg-overlay: rgba(15, 15, 15, 0.6);
+      --card-bg: rgba(255, 255, 255, 0.07);
+      --card-hover: rgba(255, 255, 255, 0.14);
+      --text: #f2f2f2;
+      --muted: #9ca3af;
+      --accent: #60a5fa;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: #0f172a url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80') center/cover fixed;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .overlay { position: fixed; inset: 0; background: var(--bg-overlay); z-index: -1; }
+    .container {
+      max-width: 850px; width: 100%;
+      background: rgba(20, 20, 25, 0.45);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 18px;
+      padding: 2.5rem;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+    }
+    header { text-align: center; margin-bottom: 2rem; }
+    h1 { font-size: 1.9rem; font-weight: 600; letter-spacing: -0.5px; }
+    .subtitle { color: var(--muted); font-size: 0.95rem; margin-top: 0.3rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      display: flex; align-items: center; gap: 0.9rem;
+      background: var(--card-bg);
+      padding: 1rem 1.1rem;
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.25s ease;
+      border: 1px solid transparent;
+    }
+    .card:hover {
+      background: var(--card-hover);
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 6px 20px rgba(96, 165, 250, 0.15);
+    }
+    .icon { font-size: 1.5rem; width: 2rem; text-align: center; flex-shrink: 0; }
+    .card-text h3 { font-size: 1rem; font-weight: 500; margin-bottom: 0.15rem; }
+    .card-text span { font-size: 0.78rem; color: var(--muted); }
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+      opacity: 0.8;
+    }
+    @media (max-width: 650px) {
+      .container { padding: 1.5rem; }
+      h1 { font-size: 1.5rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="container">
+    <header>
+      <h1 id="greeting">👋 Ciao</h1>
+      <p class="subtitle">Le tue notizie quotidiane. Senza distrazioni.</p>
+    </header>
+
+    <div class="grid">
+      <a href="https://www.ilpost.it" target="_blank" rel="noopener" class="card">
+        <span class="icon">📰</span>
+        <div class="card-text"><h3>Il Post</h3><span>Attualità & Approfondimenti</span></div>
+      </a>
+      <a href="https://www.ansa.it" target="_blank" rel="noopener" class="card">
+        <span class="icon">🌍</span>
+        <div class="card-text"><h3>ANSA</h3><span>Ultim'ora & Cronaca</span></div>
+      </a>
+      <a href="https://www.wired.it" target="_blank" rel="noopener" class="card">
+        <span class="icon">💻</span>
+        <div class="card-text"><h3>Wired IT</h3><span>Tecnologia & Innovazione</span></div>
+      </a>
+      <a href="https://www.ilsole24ore.com" target="_blank" rel="noopener" class="card">
+        <span class="icon">📈</span>
+        <div class="card-text"><h3>Sole 24 Ore</h3><span>Economia & Finanza</span></div>
+      </a>
+      <a href="https://www.repubblica.it/esteri" target="_blank" rel="noopener" class="card">
+        <span class="icon">🗺️</span>
+        <div class="card-text"><h3>Repubblica Esteri</h3><span>Mondo & Politica</span></div>
+      </a>
+      <a href="https://www.gazzetta.it" target="_blank" rel="noopener" class="card">
+        <span class="icon">⚽</span>
+        <div class="card-text"><h3>Gazzetta</h3><span>Sport & Calcio</span></div>
+      </a>
+    </div>
+
+    <footer id="date"></footer>
+  </div>
+
+  <script>
+    // Saluto dinamico + data odierna
+    const h = new Date().getHours();
+    document.getElementById('greeting').textContent = 
+      h < 6 ? '🌙 Buonanotte' : 
+      h < 12 ? '☀️ Buongiorno' : 
+      h < 18 ? '🌤️ Buon pomeriggio' : '🌅 Buonasera';
+    const opts = { day: 'numeric', month: 'long', year: 'numeric' };
+    document.getElementById('date').textContent = 'Aggiornato al ' + new Date().toLocaleDateString('it-IT', opts);
+  </script>
+</body>
+</html>
