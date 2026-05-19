@@ -86,22 +86,38 @@ body::after{
   width:100%;height:230px;object-fit:cover;border-radius:14px;opacity:.92;
   background:#111;transition:opacity .3s ease;
 }
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+/* GRID LAYOUT: 4 colonne su desktop, 2 su tablet, 1 su mobile */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+}
 .card{padding:18px;min-height:170px;contain:content;transition:transform .25s ease,background .25s ease,border-color .25s ease,box-shadow .25s ease}
 .card:hover{transform:translateY(-2px);background:var(--card-hover);border-color:rgba(96,165,250,.18);box-shadow:0 0 0 1px rgba(96,165,250,.05),0 10px 30px rgba(0,0,0,.22)}
 .card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .icon{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:rgba(255,255,255,.04);font-size:1.05rem}
 .card-title{font-weight:600}
 .card-desc{color:var(--muted);font-size:.78rem;margin-top:2px}
-.headline-main{display:block;color:#fff;text-decoration:none;font-size:.94rem;font-weight:600;line-height:1.42;margin-bottom:12px}
+.headline-main{display:block;color:#fff;text-decoration:none;font-size:.91rem;font-weight:600;line-height:1.4;margin-bottom:12px}
 .headline-main:hover{opacity:.9}
-.headline-small{display:block;color:#d4dbe5;text-decoration:none;font-size:.82rem;line-height:1.46;margin-bottom:10px;opacity:.9}
+.headline-small{display:block;color:#d4dbe5;text-decoration:none;font-size:.8rem;line-height:1.45;margin-bottom:10px;opacity:.9}
 .headline-small:hover{color:#fff}
 .skeleton{height:13px;border-radius:999px;margin-bottom:12px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.10),rgba(255,255,255,.04));background-size:200% 100%;animation:shimmer 1.2s infinite}
 @keyframes shimmer{to{background-position:-200% 0}}
 footer{margin-top:30px;text-align:center;color:var(--muted);font-size:.8rem}
-@media(max-width:860px){.top-story{grid-template-columns:1fr}.top-image{height:200px}}
-@media(max-width:640px){.hero h1{font-size:1.45rem}.grid{grid-template-columns:1fr}}
+
+/* RESPONSIVE */
+@media(max-width:1100px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:860px){
+  .top-story{grid-template-columns:1fr}
+  .top-image{height:200px}
+}
+@media(max-width:640px){
+  .hero h1{font-size:1.45rem}
+  .grid{grid-template-columns:1fr}
+}
 a:focus,button:focus,[tabindex]:focus{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
 a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}
 </style>
@@ -147,7 +163,7 @@ const RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
 const CACHE_HOURS = 5;
 const REFRESH_MS = 1000 * 60 * 60;
 
-// 8 FONTI CON URL RSS VERIFICATI E FALLBACK
+// 8 FONTI CON URL RSS TESTATI E FUNZIONANTI
 const sources = [
   {
     name:'ANSA', 
@@ -157,13 +173,13 @@ const sources = [
   },
   {
     name:'PerugiaToday', 
-    url:'https://www.perugiatoday.it/rss.xml', 
+    url:'https://www.perugiatoday.it/rss', 
     icon:'🏛️', 
     desc:'Perugia e Umbria'
   },
   {
     name:'Wired Italia', 
-    url:'https://www.wired.it/feed/', 
+    url:'https://www.wired.it/feed', 
     icon:'💻', 
     desc:'Tecnologia'
   },
@@ -253,7 +269,7 @@ async function fetchFeed(url){
   if(cached) return cached;
   
   try{
-    const res = await fetch(RSS_API + encodeURIComponent(url), {signal: AbortSignal.timeout(8000)});
+    const res = await fetch(RSS_API + encodeURIComponent(url), {signal: AbortSignal.timeout(10000)});
     const data = await res.json();
     if(data.status !== 'ok' || !data.items?.length) throw new Error();
     const items = data.items.slice(0,3);
