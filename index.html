@@ -3,699 +3,299 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Home</title>
+<meta name="theme-color" content="#060912">
+<meta name="description" content="Dashboard notizie minimal: ANSA, PerugiaToday, Wired, HDblog, Ubitennis, AI News. Zero ads, zero tracking.">
+<title>Dashboard Notizie · Zero Tracking</title>
+<!-- Favicon inline -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
+<!-- Preload immagine di sfondo -->
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80" crossorigin="anonymous">
 
 <style>
-
+/* ... (CSS invariato) ... */
 :root{
   --bg:#060912;
-  --card:rgba(14,18,28,.55);
-  --card-hover:rgba(20,26,40,.82);
-  --border:rgba(255,255,255,.06);
+  --card:rgba(15,20,32,.72);
+  --card-hover:rgba(24,31,48,.92);
+  --border:rgba(255,255,255,.05);
   --text:#f3f6fb;
-  --muted:#98a2b3;
+  --muted:#9aa4b2;
   --accent:#60a5fa;
-  --radius:22px;
+  --radius:18px;
 }
-
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
-  font-family:
-    Inter,
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  min-height:100vh;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  background:var(--bg);
   color:var(--text);
+  min-height:100vh;
   overflow-x:hidden;
-  background:#050811;
+  line-height:1.5;
 }
-
-/* BACKGROUND */
-
 body::before{
   content:'';
   position:fixed;
   inset:0;
   background:
-    url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80')
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.58)),
+    url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80')
     center/cover no-repeat;
-  transform:scale(1);
-  animation:bgMove 40s ease-in-out infinite alternate;
-  z-index:-3;
+  z-index:-2;
+  background-color:#060912;
+  will-change:transform;
 }
-
 body::after{
   content:'';
   position:fixed;
   inset:0;
-  background:
-    radial-gradient(circle at top left, rgba(96,165,250,.12), transparent 30%),
-    rgba(0,0,0,.55);
-  backdrop-filter:blur(4px);
-  z-index:-2;
+  background:radial-gradient(circle at top left, rgba(96,165,250,.12), transparent 28%);
+  z-index:-1;
+  pointer-events:none;
 }
-
-@keyframes bgMove{
-  from{
-    transform:scale(1);
-  }
-  to{
-    transform:scale(1.06);
-  }
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
-
-.app{
-  width:min(1380px,94%);
-  margin:auto;
-  padding:34px 0 42px;
-}
-
-/* TOPBAR */
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:18px;
-  flex-wrap:wrap;
-  margin-bottom:20px;
-}
-
-.hero h1{
-  font-size:1.9rem;
-  letter-spacing:-1px;
-  margin-bottom:5px;
-}
-
-.hero p{
-  color:var(--muted);
-  font-size:.92rem;
-}
-
-.meta{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
+.app{width:min(1420px,94%);margin:auto;padding:30px 0 44px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:20px}
+.hero h1{font-size:1.9rem;letter-spacing:-1px;margin-bottom:4px}
+.hero p{color:var(--muted);font-size:.92rem}
+.meta{display:flex;gap:10px;flex-wrap:wrap}
 .glass{
   background:var(--card);
   border:1px solid var(--border);
-  backdrop-filter:blur(16px);
-  -webkit-backdrop-filter:blur(16px);
-  border-radius:16px;
+  border-radius:var(--radius);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
 }
-
-.weather,
-.clock,
-.refresh{
-  padding:.82rem 1rem;
-  font-size:.85rem;
-  color:#e5e7eb;
+.weather,.clock,.refresh{padding:.82rem 1rem;font-size:.84rem;color:#e8edf4}
+.refresh{cursor:pointer;transition:background .25s ease,transform .2s ease}
+.refresh:hover{background:var(--card-hover)}
+.refresh:active{transform:scale(.98)}
+.search{margin-bottom:18px}
+.search-box{
+  width:100%;padding:1rem 1.1rem;border:none;outline:none;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);color:var(--text);font-size:.96rem;
 }
-
-.refresh{
-  cursor:pointer;
-  transition:.25s;
+.search-box::placeholder{color:var(--muted)}
+.top-story{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;overflow:hidden;margin-bottom:18px;padding:22px}
+.top-content{display:flex;flex-direction:column;justify-content:center}
+.top-source{color:var(--accent);font-size:.8rem;margin-bottom:10px;font-weight:600}
+.top-title{font-size:1.55rem;line-height:1.12;font-weight:700;margin-bottom:12px}
+.top-link{color:inherit;text-decoration:none}
+.top-desc{color:var(--muted);font-size:.92rem;line-height:1.5}
+.top-image{
+  width:100%;height:230px;object-fit:cover;border-radius:14px;opacity:.92;
+  background:#111;transition:opacity .3s ease;
 }
-
-.refresh:hover{
-  background:var(--card-hover);
-}
-
-/* WEATHER WIDGET */
-
-.weather{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.weather-icon{
-  font-size:1rem;
-}
-
-/* TOP STORY */
-
-.top-story{
-  padding:24px 28px;
-  margin-bottom:18px;
-  position:relative;
-  overflow:hidden;
-}
-
-.top-story::before{
-  content:'TOP STORY';
-  position:absolute;
-  top:18px;
-  right:20px;
-  font-size:.7rem;
-  letter-spacing:.18em;
-  color:rgba(255,255,255,.28);
-}
-
-.top-source{
-  color:var(--accent);
-  font-size:.8rem;
-  margin-bottom:10px;
-  font-weight:600;
-}
-
-.top-title{
-  font-size:1.5rem;
-  line-height:1.15;
-  font-weight:700;
-  margin-bottom:10px;
-  max-width:950px;
-}
-
-.top-link{
-  color:inherit;
-  text-decoration:none;
-}
-
-.top-link:hover{
-  opacity:.92;
-}
-
-.top-desc{
-  color:var(--muted);
-  line-height:1.45;
-  max-width:850px;
-  font-size:.92rem;
-}
-
-/* GRID */
-
-.grid{
-  display:grid;
-  grid-template-columns:
-    repeat(auto-fit,minmax(300px,1fr));
-  gap:16px;
-}
-
-.card{
-  padding:18px;
-  min-height:165px;
-  transition:.25s ease;
-}
-
-.card:hover{
-  transform:translateY(-2px);
-  background:var(--card-hover);
-  border-color:rgba(96,165,250,.2);
-  box-shadow:
-    0 0 0 1px rgba(96,165,250,.08),
-    0 8px 28px rgba(59,130,246,.08);
-}
-
-.card-header{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin-bottom:14px;
-}
-
-.icon{
-  width:40px;
-  height:40px;
-  border-radius:12px;
-  background:rgba(255,255,255,.05);
-  display:grid;
-  place-items:center;
-  font-size:1.1rem;
-}
-
-.card-title{
-  font-weight:600;
-}
-
-.card-desc{
-  color:var(--muted);
-  font-size:.78rem;
-  margin-top:2px;
-}
-
-/* HEADLINES */
-
-.headline-main{
-  display:block;
-  text-decoration:none;
-  color:#fff;
-  font-size:.97rem;
-  font-weight:600;
-  line-height:1.4;
-  margin-bottom:12px;
-}
-
-.headline-main:hover{
-  opacity:.9;
-}
-
-.headline-small{
-  display:block;
-  text-decoration:none;
-  color:#cfd8e3;
-  font-size:.84rem;
-  line-height:1.45;
-  margin-bottom:10px;
-  opacity:.88;
-}
-
-.headline-small:hover{
-  color:#fff;
-}
-
-/* SKELETON */
-
-.skeleton{
-  height:13px;
-  border-radius:999px;
-  margin-bottom:12px;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,.05),
-      rgba(255,255,255,.12),
-      rgba(255,255,255,.05)
-    );
-
-  background-size:200% 100%;
-  animation:shimmer 1.2s infinite;
-}
-
-@keyframes shimmer{
-  to{
-    background-position:-200% 0;
-  }
-}
-
-footer{
-  margin-top:28px;
-  text-align:center;
-  color:var(--muted);
-  font-size:.8rem;
-}
-
-@media(max-width:720px){
-
-  .hero h1{
-    font-size:1.45rem;
-  }
-
-  .top-title{
-    font-size:1.2rem;
-  }
-
-  .top-story{
-    padding:22px;
-  }
-
-}
-
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:16px}
+.card{padding:18px;min-height:170px;contain:content;transition:transform .25s ease,background .25s ease,border-color .25s ease,box-shadow .25s ease}
+.card:hover{transform:translateY(-2px);background:var(--card-hover);border-color:rgba(96,165,250,.18);box-shadow:0 0 0 1px rgba(96,165,250,.05),0 10px 30px rgba(0,0,0,.22)}
+.card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.icon{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:rgba(255,255,255,.04);font-size:1.05rem}
+.card-title{font-weight:600}
+.card-desc{color:var(--muted);font-size:.78rem;margin-top:2px}
+.headline-main{display:block;color:#fff;text-decoration:none;font-size:.97rem;font-weight:600;line-height:1.42;margin-bottom:12px}
+.headline-main:hover{opacity:.9}
+.headline-small{display:block;color:#d4dbe5;text-decoration:none;font-size:.84rem;line-height:1.46;margin-bottom:10px;opacity:.9}
+.headline-small:hover{color:#fff}
+.skeleton{height:13px;border-radius:999px;margin-bottom:12px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.10),rgba(255,255,255,.04));background-size:200% 100%;animation:shimmer 1.2s infinite}
+@keyframes shimmer{to{background-position:-200% 0}}
+footer{margin-top:30px;text-align:center;color:var(--muted);font-size:.8rem}
+@media(max-width:860px){.top-story{grid-template-columns:1fr}.top-image{height:200px}}
+@media(max-width:640px){.hero h1{font-size:1.45rem}.grid{grid-template-columns:1fr}}
+a:focus,button:focus,[tabindex]:focus{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
+a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}
 </style>
 </head>
-
 <body>
-
 <div class="app">
-
   <header class="topbar">
-
     <div class="hero">
-      <h1 id="greeting">Buongiorno</h1>
-      <p>Notizie selezionate. Nessun rumore.</p>
+      <h1 id="greeting" aria-live="polite">Buongiorno</h1>
+      <p>Notizie selezionate. Zero rumore.</p>
     </div>
-
     <div class="meta">
-
-      <div class="weather glass" id="weather">
-        <span class="weather-icon">⛅</span>
-        <span>Meteo...</span>
-      </div>
-
-      <div class="clock glass" id="clock">
-        --
-      </div>
-
-      <div class="refresh glass" onclick="loadAll()">
-        Aggiorna
-      </div>
-
+      <div class="weather glass" id="weather" aria-live="polite" aria-label="Meteo Perugia">⛅ Meteo...</div>
+      <div class="clock glass" id="clock" aria-label="Ora corrente">--</div>
+      <div class="refresh glass" onclick="loadAll()" role="button" tabindex="0" aria-label="Aggiorna notizie">Aggiorna</div>
     </div>
-
   </header>
 
-  <!-- TOP STORY -->
-
-  <section class="top-story glass">
-
-    <div class="top-source" id="topSource">
-      Caricamento...
-    </div>
-
-    <a id="topLink" class="top-link" target="_blank">
-      <div class="top-title" id="topTitle">
-        Recupero notizia principale...
-      </div>
-    </a>
-
-    <div class="top-desc" id="topDesc"></div>
-
+  <section class="search">
+    <form action="https://duckduckgo.com/" method="GET" target="_blank" rel="noopener noreferrer">
+      <input class="search-box" type="text" name="q" placeholder="Cerca con DuckDuckGo..." autocomplete="off" aria-label="Cerca">
+    </form>
   </section>
 
-  <!-- GRID -->
+  <section class="top-story glass">
+    <div class="top-content">
+      <div class="top-source" id="topSource">Caricamento...</div>
+      <a id="topLink" class="top-link" target="_blank" rel="noopener noreferrer">
+        <div class="top-title" id="topTitle" aria-live="polite">Recupero notizia principale...</div>
+      </a>
+      <div class="top-desc" id="topDesc"></div>
+    </div>
+    <img id="topImage" class="top-image" alt="Top story" loading="lazy">
+  </section>
 
-  <main class="grid" id="grid"></main>
-
-  <footer>
-    Dashboard minimal · GitHub Pages
-  </footer>
-
+  <main class="grid" id="grid" aria-label="Fonti notizie"></main>
+  <footer>Dashboard minimal · GitHub Pages · <time id="lastUpdate"></time></footer>
 </div>
 
 <script>
-
-/*
-NESSUNA DIPENDENZA ESTERNA
-NO GOOGLE
-SOLO:
-- Open Meteo
-- RSS2JSON
-*/
-
-const RSS_API =
-'https://api.rss2json.com/v1/api.json?rss_url=';
-
-/*
-FEED ITALIANI ABBASTANZA STABILI
-*/
+/* ================= CONFIG ================= */
+const RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
+const CACHE_HOURS = 5;
+const REFRESH_MS = 1000 * 60 * 60; // 60 minuti (dilatato)
 
 const sources = [
-
-{
-  name:'ANSA',
-  url:'https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml',
-  icon:'📰',
-  desc:'Ultime notizie'
-},
-
-{
-  name:'Sky TG24',
-  url:'https://tg24.sky.it/rss/tg24',
-  icon:'🌍',
-  desc:'Attualità'
-},
-
-{
-  name:'Wired Italia',
-  url:'https://www.wired.it/feed/rss',
-  icon:'💻',
-  desc:'Tecnologia'
-},
-
-{
-  name:'Focus',
-  url:'https://www.focus.it/rss/scienza.xml',
-  icon:'🔬',
-  desc:'Scienza'
-},
-
-{
-  name:'HDblog',
-  url:'https://www.hdblog.it/feed/',
-  icon:'📱',
-  desc:'Tech'
-},
-
-{
-  name:'Ubitennis',
-  url:'https://www.ubitennis.com/feed/',
-  icon:'🎾',
-  desc:'Tennis'
-}
-
+  {name:'ANSA', url:'https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml', icon:'📰', desc:'Ultime notizie'},
+  {name:'PerugiaToday', url:'https://www.perugiatoday.it/feed/', icon:'🏛️', desc:'Perugia'},
+  {name:'Wired Italia', url:'https://www.wired.it/feed/', icon:'💻', desc:'Tecnologia'},
+  {name:'HDblog', url:'https://rss.hdblog.it/hdblog.it.xml', icon:'📱', desc:'Tech'},
+  {name:'Ubitennis', url:'https://www.ubitennis.com/feed/', icon:'🎾', desc:'Tennis'},
+  {name:'AI News', url:'https://www.marktechpost.com/feed/', icon:'🤖', desc:'AI'}
 ];
 
+/* ================= UTILS ================= */
 function greeting(){
-
   const h = new Date().getHours();
-
   if(h < 6) return 'Buona notte';
   if(h < 12) return 'Buongiorno';
   if(h < 18) return 'Buon pomeriggio';
-
   return 'Buonasera';
 }
 
 function updateClock(){
-
   const now = new Date();
-
-  document.getElementById('clock').textContent =
-    now.toLocaleTimeString('it-IT',{
-      hour:'2-digit',
-      minute:'2-digit'
-    });
-
-  document.getElementById('greeting').textContent =
-    greeting();
+  document.getElementById('clock').textContent = now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('greeting').textContent = greeting();
+  document.getElementById('lastUpdate').textContent = `agg: ${now.toLocaleDateString('it-IT')}`;
 }
 
-/* METEO */
-
-async function weather(){
-
+/* ================= WEATHER ================= */
+async function loadWeather(){
   try{
-
-    const r = await fetch(
-      'https://api.open-meteo.com/v1/forecast?latitude=45.4642&longitude=9.1900&current=temperature_2m,weather_code'
-    );
-
+    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=43.1107&longitude=12.3908&current=temperature_2m,weather_code&timezone=Europe/Rome');
     const d = await r.json();
-
-    const temp =
-      Math.round(d.current.temperature_2m);
-
-    const code =
-      d.current.weather_code;
-
-    const weatherMap = {
-      0:'☀️',
-      1:'🌤️',
-      2:'⛅',
-      3:'☁️',
-      45:'🌫️',
-      48:'🌫️',
-      51:'🌦️',
-      61:'🌧️',
-      71:'❄️',
-      95:'⛈️'
-    };
-
-    document.getElementById('weather').innerHTML = `
-      <span class="weather-icon">
-        ${weatherMap[code] || '⛅'}
-      </span>
-
-      <span>
-        ${temp}° · Milano
-      </span>
-    `;
-
+    const temp = Math.round(d.current.temperature_2m);
+    const code = d.current.weather_code;
+    const map = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',61:'🌧️',71:'❄️',95:'⛈️'};
+    document.getElementById('weather').innerHTML = `<span>${map[code]||'⛅'}</span> <span>${temp}° · Perugia</span>`;
   }catch{
-
-    document.getElementById('weather').innerHTML = `
-      <span class="weather-icon">⛅</span>
-      <span>Meteo non disponibile</span>
-    `;
+    document.getElementById('weather').innerHTML = `<span>⛅</span> <span>Meteo non disp.</span>`;
   }
 }
 
-/* SKELETON */
-
-function skeleton(){
-
-  return `
-    <div class="skeleton"></div>
-    <div class="skeleton"></div>
-    <div class="skeleton"></div>
-  `;
+/* ================= CACHE ================= */
+function cacheKey(url){ return `rss_${btoa(url)}`; }
+function getCache(url){
+  try{
+    const raw = localStorage.getItem(cacheKey(url));
+    if(!raw) return null;
+    const {items,ts} = JSON.parse(raw);
+    if(Date.now() - ts < CACHE_HOURS * 3600 * 1000) return items;
+  }catch(e){}
+  return null;
+}
+function setCache(url, items){
+  try{ localStorage.setItem(cacheKey(url), JSON.stringify({items, ts: Date.now()})); }catch(e){}
 }
 
-/* FEED */
+/* ================= SKELETON ================= */
+function skeleton(){ return `<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>`; }
 
-async function fetchFeed(feed){
-
-  const res = await fetch(
-    RSS_API + encodeURIComponent(feed.url),
-    {
-      signal:AbortSignal.timeout(7000)
-    }
-  );
-
+/* ================= FETCH FEED ================= */
+async function fetchFeed(url){
+  const cached = getCache(url);
+  if(cached) return cached;
+  const res = await fetch(RSS_API + encodeURIComponent(url), {signal: AbortSignal.timeout(7000)});
   const data = await res.json();
-
-  if(data.status !== 'ok' || !data.items?.length){
-    throw new Error();
-  }
-
-  return data.items.slice(0,3);
+  if(data.status !== 'ok' || !data.items?.length) throw new Error();
+  const items = data.items.slice(0,3);
+  setCache(url, items);
+  return items;
 }
 
-/* CARDS */
+/* ================= TOP STORY (più recente) ================= */
+function setTopStory(item, source){
+  document.getElementById('topSource').textContent = source.name;
+  document.getElementById('topTitle').textContent = item.title;
+  document.getElementById('topLink').href = item.link;
+  const clean = item.description?.replace(/<[^>]*>/g,'')?.slice(0,180);
+  document.getElementById('topDesc').textContent = clean || 'Apri la notizia per leggere di più.';
+  
+  const img = item.thumbnail || item.enclosure?.link;
+  const imgEl = document.getElementById('topImage');
+  if(img){
+    imgEl.src = img;
+    imgEl.style.display = 'block';
+  } else {
+    imgEl.style.display = 'none';
+  }
+}
 
+/* ================= BUILD CARDS ================= */
 async function buildCards(){
-
-  const grid =
-    document.getElementById('grid');
-
+  const grid = document.getElementById('grid');
   grid.innerHTML = '';
-
   sources.forEach((s,i)=>{
-
-    const card =
-      document.createElement('div');
-
-    card.className =
-      'card glass';
-
+    const card = document.createElement('div');
+    card.className = 'card glass';
     card.innerHTML = `
-
       <div class="card-header">
-
         <div class="icon">${s.icon}</div>
-
-        <div>
-          <div class="card-title">${s.name}</div>
-          <div class="card-desc">${s.desc}</div>
-        </div>
-
+        <div><div class="card-title">${s.name}</div><div class="card-desc">${s.desc}</div></div>
       </div>
-
-      <div id="content-${i}">
-        ${skeleton()}
-      </div>
-
+      <div id="content-${i}">${skeleton()}</div>
     `;
-
     grid.appendChild(card);
-
   });
-
-  for(let i=0;i<sources.length;i++){
-
-    const s = sources[i];
-
-    const target =
-      document.getElementById(`content-${i}`);
-
-    try{
-
-      const items =
-        await fetchFeed(s);
-
-      const first = items[0];
-
-      const rest =
-        items.slice(1);
-
-      target.innerHTML = `
-
-        <a
-          class="headline-main"
-          href="${first.link}"
-          target="_blank"
-          rel="noopener"
-        >
-          ${first.title}
-        </a>
-
-        ${rest.map(item => `
-
-          <a
-            class="headline-small"
-            href="${item.link}"
-            target="_blank"
-            rel="noopener"
-          >
-            ${item.title}
-          </a>
-
-        `).join('')}
-
-      `;
-
-      if(i === 0){
-
-        topStory(first,s);
-
-      }
-
-    }catch{
-
-      target.innerHTML = `
-        <div style="
-          color:var(--muted);
-          font-size:.84rem;
-          line-height:1.5;
-        ">
-          Feed non disponibile.
-        </div>
-      `;
+  const results = await Promise.allSettled(sources.map(s => fetchFeed(s.url)));
+  let topCandidates = [];
+  results.forEach((result,i)=>{
+    const target = document.getElementById(`content-${i}`);
+    if(result.status !== 'fulfilled'){
+      target.innerHTML = `<div style="color:var(--muted);font-size:.84rem">Feed non disponibile</div>`;
+      return;
     }
+    const items = result.value;
+    const [first,...rest] = items;
+    target.innerHTML = `
+      <a class="headline-main" href="${first.link}" target="_blank" rel="noopener noreferrer">${first.title}</a>
+      ${rest.map(it => `<a class="headline-small" href="${it.link}" target="_blank" rel="noopener noreferrer">${it.title}</a>`).join('')}
+    `;
+    topCandidates.push({item:first, source:sources[i]});
+  });
+  if(topCandidates.length){
+    // Seleziona la notizia più recente (basata su pubDate)
+    topCandidates.sort((a,b) => {
+      const da = a.item.pubDate ? new Date(a.item.pubDate) : new Date(0);
+      const db = b.item.pubDate ? new Date(b.item.pubDate) : new Date(0);
+      return db - da; // decrescente
+    });
+    setTopStory(topCandidates[0].item, topCandidates[0].source);
   }
 }
 
-/* TOP STORY */
-
-function topStory(item,source){
-
-  document.getElementById('topSource').textContent =
-    source.name;
-
-  document.getElementById('topTitle').textContent =
-    item.title;
-
-  document.getElementById('topLink').href =
-    item.link;
-
-  const clean =
-    item.description
-    ?.replace(/<[^>]*>/g,'')
-    ?.slice(0,160);
-
-  document.getElementById('topDesc').textContent =
-    clean || 'Apri la notizia per leggere di più.';
-}
-
-/* LOAD */
-
+/* ================= INIT ================= */
 function loadAll(){
-
   updateClock();
-
-  weather();
-
+  loadWeather();
   buildCards();
 }
 
-loadAll();
+document.addEventListener('DOMContentLoaded', ()=>{
+  loadAll();
+  setInterval(updateClock, 60000);
+  setInterval(buildCards, REFRESH_MS); // ogni 60 minuti
+});
 
-setInterval(updateClock,60000);
-
+document.querySelector('.refresh')?.addEventListener('keydown', e=>{
+  if(e.key==='Enter'||e.key===' '){ e.preventDefault(); loadAll(); }
+});
 </script>
-
 </body>
 </html>
