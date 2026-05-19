@@ -86,7 +86,6 @@ body::after{
   width:100%;height:230px;object-fit:cover;border-radius:14px;opacity:.92;
   background:#111;transition:opacity .3s ease;
 }
-/* GRID LAYOUT: 4 colonne su desktop, 2 su tablet, 1 su mobile */
 .grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -105,19 +104,9 @@ body::after{
 .skeleton{height:13px;border-radius:999px;margin-bottom:12px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.10),rgba(255,255,255,.04));background-size:200% 100%;animation:shimmer 1.2s infinite}
 @keyframes shimmer{to{background-position:-200% 0}}
 footer{margin-top:30px;text-align:center;color:var(--muted);font-size:.8rem}
-
-/* RESPONSIVE */
-@media(max-width:1100px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:860px){
-  .top-story{grid-template-columns:1fr}
-  .top-image{height:200px}
-}
-@media(max-width:640px){
-  .hero h1{font-size:1.45rem}
-  .grid{grid-template-columns:1fr}
-}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:860px){.top-story{grid-template-columns:1fr}.top-image{height:200px}}
+@media(max-width:640px){.hero h1{font-size:1.45rem}.grid{grid-template-columns:1fr}}
 a:focus,button:focus,[tabindex]:focus{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
 a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}
 </style>
@@ -127,7 +116,7 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}
   <header class="topbar">
     <div class="hero">
       <h1 id="greeting" aria-live="polite">Buongiorno</h1>
-      <p>8 fonti selezionate. Zero rumore.</p>
+      <p>8 fonti italiane. Zero rumore.</p>
     </div>
     <div class="meta">
       <div class="weather glass" id="weather" aria-live="polite" aria-label="Meteo Perugia">⛅ Meteo...</div>
@@ -163,7 +152,7 @@ const RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
 const CACHE_HOURS = 5;
 const REFRESH_MS = 1000 * 60 * 60;
 
-// 8 FONTI CON URL RSS TESTATI E FUNZIONANTI
+// 8 FONTI ITALIANE CON FEED RSS TESTATI E FUNZIONANTI
 const sources = [
   {
     name:'ANSA', 
@@ -178,16 +167,16 @@ const sources = [
     desc:'Perugia e Umbria'
   },
   {
-    name:'Wired Italia', 
-    url:'https://www.wired.it/feed', 
+    name:'Repubblica Tech', 
+    url:'https://www.repubblica.it/rss/tecnologia/rss2.0.xml', 
     icon:'💻', 
     desc:'Tecnologia'
   },
   {
-    name:'HDblog', 
-    url:'https://rss.hdblog.it/hdblog.it.xml', 
+    name:'Tom\'s Hardware', 
+    url:'https://www.tomshw.it/feed/', 
     icon:'📱', 
-    desc:'Tech e Smartphone'
+    desc:'Hardware e Tech'
   },
   {
     name:'Ubitennis', 
@@ -196,16 +185,16 @@ const sources = [
     desc:'Tennis'
   },
   {
-    name:'AI News', 
-    url:'https://www.marktechpost.com/feed/', 
+    name:'Innovazione AI', 
+    url:'https://www.zdnet.it/feed/', 
     icon:'🤖', 
-    desc:'Intelligenza Artificiale'
+    desc:'AI e Innovazione'
   },
   {
-    name:'Il Post', 
-    url:'https://www.ilpost.it/feed/', 
-    icon:'📰', 
-    desc:'Approfondimenti'
+    name:'Il Sole 24 Ore', 
+    url:'https://www.ilsole24ore.com/rss/notizie.xml', 
+    icon:'📊', 
+    desc:'Economia e Finanza'
   },
   {
     name:'Corriere Salute', 
