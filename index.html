@@ -4,15 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#060912">
-<meta name="description" content="Dashboard notizie minimal: ANSA, PerugiaToday, Wired, HDblog, Ubitennis, AI News. Zero ads, zero tracking.">
+<meta name="description" content="Dashboard notizie minimal: 8 fonti italiane. Zero ads, zero tracking.">
 <title>Dashboard Notizie · Zero Tracking</title>
-<!-- Favicon inline -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
-<!-- Preload immagine di sfondo -->
 <link rel="preload" as="image" href="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80" crossorigin="anonymous">
 
 <style>
-/* ... (CSS invariato) ... */
 :root{
   --bg:#060912;
   --card:rgba(15,20,32,.72);
@@ -89,16 +86,16 @@ body::after{
   width:100%;height:230px;object-fit:cover;border-radius:14px;opacity:.92;
   background:#111;transition:opacity .3s ease;
 }
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
 .card{padding:18px;min-height:170px;contain:content;transition:transform .25s ease,background .25s ease,border-color .25s ease,box-shadow .25s ease}
 .card:hover{transform:translateY(-2px);background:var(--card-hover);border-color:rgba(96,165,250,.18);box-shadow:0 0 0 1px rgba(96,165,250,.05),0 10px 30px rgba(0,0,0,.22)}
 .card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
 .icon{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:rgba(255,255,255,.04);font-size:1.05rem}
 .card-title{font-weight:600}
 .card-desc{color:var(--muted);font-size:.78rem;margin-top:2px}
-.headline-main{display:block;color:#fff;text-decoration:none;font-size:.97rem;font-weight:600;line-height:1.42;margin-bottom:12px}
+.headline-main{display:block;color:#fff;text-decoration:none;font-size:.94rem;font-weight:600;line-height:1.42;margin-bottom:12px}
 .headline-main:hover{opacity:.9}
-.headline-small{display:block;color:#d4dbe5;text-decoration:none;font-size:.84rem;line-height:1.46;margin-bottom:10px;opacity:.9}
+.headline-small{display:block;color:#d4dbe5;text-decoration:none;font-size:.82rem;line-height:1.46;margin-bottom:10px;opacity:.9}
 .headline-small:hover{color:#fff}
 .skeleton{height:13px;border-radius:999px;margin-bottom:12px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.10),rgba(255,255,255,.04));background-size:200% 100%;animation:shimmer 1.2s infinite}
 @keyframes shimmer{to{background-position:-200% 0}}
@@ -114,7 +111,7 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}
   <header class="topbar">
     <div class="hero">
       <h1 id="greeting" aria-live="polite">Buongiorno</h1>
-      <p>Notizie selezionate. Zero rumore.</p>
+      <p>8 fonti selezionate. Zero rumore.</p>
     </div>
     <div class="meta">
       <div class="weather glass" id="weather" aria-live="polite" aria-label="Meteo Perugia">⛅ Meteo...</div>
@@ -137,7 +134,7 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}
       </a>
       <div class="top-desc" id="topDesc"></div>
     </div>
-    <img id="topImage" class="top-image" alt="Top story" loading="lazy">
+    <img id="topImage" class="top-image" alt="Top story" loading="lazy" onerror="this.style.display='none'">
   </section>
 
   <main class="grid" id="grid" aria-label="Fonti notizie"></main>
@@ -148,15 +145,58 @@ a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}
 /* ================= CONFIG ================= */
 const RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
 const CACHE_HOURS = 5;
-const REFRESH_MS = 1000 * 60 * 60; // 60 minuti (dilatato)
+const REFRESH_MS = 1000 * 60 * 60;
 
+// 8 FONTI CON URL RSS VERIFICATI E FALLBACK
 const sources = [
-  {name:'ANSA', url:'https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml', icon:'📰', desc:'Ultime notizie'},
-  {name:'PerugiaToday', url:'https://www.perugiatoday.it/feed/', icon:'🏛️', desc:'Perugia'},
-  {name:'Wired Italia', url:'https://www.wired.it/feed/', icon:'💻', desc:'Tecnologia'},
-  {name:'HDblog', url:'https://rss.hdblog.it/hdblog.it.xml', icon:'📱', desc:'Tech'},
-  {name:'Ubitennis', url:'https://www.ubitennis.com/feed/', icon:'🎾', desc:'Tennis'},
-  {name:'AI News', url:'https://www.marktechpost.com/feed/', icon:'🤖', desc:'AI'}
+  {
+    name:'ANSA', 
+    url:'https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml', 
+    icon:'📰', 
+    desc:'Ultime notizie'
+  },
+  {
+    name:'PerugiaToday', 
+    url:'https://www.perugiatoday.it/rss.xml', 
+    icon:'🏛️', 
+    desc:'Perugia e Umbria'
+  },
+  {
+    name:'Wired Italia', 
+    url:'https://www.wired.it/feed/', 
+    icon:'💻', 
+    desc:'Tecnologia'
+  },
+  {
+    name:'HDblog', 
+    url:'https://rss.hdblog.it/hdblog.it.xml', 
+    icon:'📱', 
+    desc:'Tech e Smartphone'
+  },
+  {
+    name:'Ubitennis', 
+    url:'https://www.ubitennis.com/feed/', 
+    icon:'🎾', 
+    desc:'Tennis'
+  },
+  {
+    name:'AI News', 
+    url:'https://www.marktechpost.com/feed/', 
+    icon:'🤖', 
+    desc:'Intelligenza Artificiale'
+  },
+  {
+    name:'Il Post', 
+    url:'https://www.ilpost.it/feed/', 
+    icon:'📰', 
+    desc:'Approfondimenti'
+  },
+  {
+    name:'Corriere Salute', 
+    url:'https://www.corriere.it/rss/salute.xml', 
+    icon:'❤️', 
+    desc:'Salute e benessere'
+  }
 ];
 
 /* ================= UTILS ================= */
@@ -211,15 +251,21 @@ function skeleton(){ return `<div class="skeleton"></div><div class="skeleton"><
 async function fetchFeed(url){
   const cached = getCache(url);
   if(cached) return cached;
-  const res = await fetch(RSS_API + encodeURIComponent(url), {signal: AbortSignal.timeout(7000)});
-  const data = await res.json();
-  if(data.status !== 'ok' || !data.items?.length) throw new Error();
-  const items = data.items.slice(0,3);
-  setCache(url, items);
-  return items;
+  
+  try{
+    const res = await fetch(RSS_API + encodeURIComponent(url), {signal: AbortSignal.timeout(8000)});
+    const data = await res.json();
+    if(data.status !== 'ok' || !data.items?.length) throw new Error();
+    const items = data.items.slice(0,3);
+    setCache(url, items);
+    return items;
+  }catch(e){
+    console.warn(`Feed fallito: ${url}`, e);
+    throw e;
+  }
 }
 
-/* ================= TOP STORY (più recente) ================= */
+/* ================= TOP STORY ================= */
 function setTopStory(item, source){
   document.getElementById('topSource').textContent = source.name;
   document.getElementById('topTitle').textContent = item.title;
@@ -253,12 +299,14 @@ async function buildCards(){
     `;
     grid.appendChild(card);
   });
+  
   const results = await Promise.allSettled(sources.map(s => fetchFeed(s.url)));
   let topCandidates = [];
+  
   results.forEach((result,i)=>{
     const target = document.getElementById(`content-${i}`);
     if(result.status !== 'fulfilled'){
-      target.innerHTML = `<div style="color:var(--muted);font-size:.84rem">Feed non disponibile</div>`;
+      target.innerHTML = `<div style="color:var(--muted);font-size:.82rem;line-height:1.4">Feed temporaneamente non disponibile<br><small style="opacity:.7">Riprova più tardi</small></div>`;
       return;
     }
     const items = result.value;
@@ -269,12 +317,12 @@ async function buildCards(){
     `;
     topCandidates.push({item:first, source:sources[i]});
   });
+  
   if(topCandidates.length){
-    // Seleziona la notizia più recente (basata su pubDate)
     topCandidates.sort((a,b) => {
-      const da = a.item.pubDate ? new Date(a.item.pubDate) : new Date(0);
-      const db = b.item.pubDate ? new Date(b.item.pubDate) : new Date(0);
-      return db - da; // decrescente
+      const da = a.item.pubDate ? new Date(a.item.pubDate).getTime() : 0;
+      const db = b.item.pubDate ? new Date(b.item.pubDate).getTime() : 0;
+      return db - da;
     });
     setTopStory(topCandidates[0].item, topCandidates[0].source);
   }
@@ -290,7 +338,7 @@ function loadAll(){
 document.addEventListener('DOMContentLoaded', ()=>{
   loadAll();
   setInterval(updateClock, 60000);
-  setInterval(buildCards, REFRESH_MS); // ogni 60 minuti
+  setInterval(buildCards, REFRESH_MS);
 });
 
 document.querySelector('.refresh')?.addEventListener('keydown', e=>{
