@@ -55,8 +55,8 @@ body::after{
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 
-/* ALLARGATO LARGHEZZA MASSIMA */
-.app{width:min(1300px,95%);margin:auto;padding:30px 0 44px}
+/* ALLARGATO A 1440px PER GRIGLIA 4x2 LEGGIBILE */
+.app{width:min(1440px,96%);margin:auto;padding:30px 0 44px}
 .topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:24px}
 .hero h1{font-size:1.85rem;letter-spacing:-0.5px;margin-bottom:4px;font-weight:700}
 .hero p{color:var(--muted);font-size:.88rem}
@@ -86,7 +86,6 @@ body::after{
 .top-story{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;overflow:hidden;margin-bottom:22px;padding:24px}
 .top-content{display:flex;flex-direction:column;justify-content:center}
 .top-source{color:var(--accent);font-size:.78rem;margin-bottom:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
-/* TITOLO PRINCIPALE LEGGERMENTE PIU GRANDE */
 .top-title{font-size:1.55rem;line-height:1.15;font-weight:700;margin-bottom:14px}
 .top-link{color:inherit;text-decoration:none;transition:opacity 0.2s}
 .top-link:hover{opacity:.85}
@@ -96,23 +95,23 @@ body::after{
   background:rgba(255,255,255,0.03);transition:opacity .3s ease;
 }
 
-/* GRIGLIA A 3 COLONNE PER ALLARGARE LE SCHEDE */
+/* GRIGLIA 4 COLONNE */
 .grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:18px;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
 }
-.card{padding:22px;min-height:180px;contain:content;transition:transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease}
+.card{padding:20px;min-height:180px;contain:content;transition:transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease}
 .card:hover{transform:translateY(-3px);background:var(--card-hover);border-color:rgba(96,165,250,.15);box-shadow:0 12px 40px rgba(0,0,0,.25)}
 .card-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:rgba(255,255,255,.04);font-size:1.1rem}
 .card-title{font-weight:700;font-size:.95rem}
 .card-desc{color:var(--muted);font-size:.76rem;margin-top:2px}
 
-/* TESTI LEGGERMENTE PIU GRANDI E LEGGIBILI */
-.headline-main{display:block;color:#fff;text-decoration:none;font-size:.98rem;font-weight:600;line-height:1.5;margin-bottom:14px;transition:color 0.2s}
+/* FONT LEGGIBILI */
+.headline-main{display:block;color:#fff;text-decoration:none;font-size:.92rem;font-weight:600;line-height:1.5;margin-bottom:14px;transition:color 0.2s}
 .headline-main:hover{color:var(--accent)}
-.headline-small{display:block;color:#d4dbe5;text-decoration:none;font-size:.88rem;line-height:1.5;margin-bottom:10px;opacity:.85;transition:color 0.2s}
+.headline-small{display:block;color:#d4dbe5;text-decoration:none;font-size:.82rem;line-height:1.5;margin-bottom:10px;opacity:.85;transition:color 0.2s}
 .headline-small:hover{color:#fff;opacity:1}
 
 .skeleton{height:12px;border-radius:99px;margin-bottom:14px;background:linear-gradient(90deg,rgba(255,255,255,.03),rgba(255,255,255,.08),rgba(255,255,255,.03));background-size:200% 100%;animation:shimmer 1.5s infinite}
@@ -180,8 +179,8 @@ const sources = [
   { name:'Repubblica Tech', url:'https://www.repubblica.it/rss/tecnologia/rss2.0.xml', icon:'💻', desc:'Tecnologia' },
   { name:"Tom's Hardware", url:'https://www.tomshw.it/feed/', icon:'📱', desc:'Hardware e Tech' },
   { name:'Ubitennis', url:'https://www.ubitennis.com/feed/', icon:'🎾', desc:'Tennis' },
-  { name:'Innovazione AI', url:'https://www.zdnet.it/feed/', icon:'🤖', desc:'AI e Innovazione' },
-  /* SOSTITUITO IL SOLE 24 ORE CON RAINIEWS (FEED PIU STABILE E AFFIDABILE) */
+  /* SOSTITUITO ZDNET CON AGENDA DIGITALE (FEED PIU STABILE) */
+  { name:'Agenda Digitale', url:'https://www.agendadigitale.eu/feed/', icon:'🤖', desc:'Innovazione e AI' },
   { name:'Rainews', url:'https://www.rainews.it/rss/rainews.xml', icon:'🌍', desc:'Cronaca e Mondo' },
   { name:'Corriere Salute', url:'https://www.corriere.it/rss/salute.xml', icon:'❤️', desc:'Salute e benessere' }
 ];
