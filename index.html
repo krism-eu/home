@@ -1,354 +1,256 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#060912">
-<meta name="description" content="Dashboard notizie minimal: 8 fonti italiane. Zero ads, zero tracking.">
-<title>Dashboard Notizie · Zero Tracking</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
-<link rel="preload" as="image" href="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dashboard notizie minimal: 8 fonti italiane. Zero ads, zero tracking.">
+  <title>Dashboard Notizie · Zero Tracking</title>
+  <!-- Favicon inline (zero richieste esterne) -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📰</text></svg>">
 
-<style>
-:root{
-  --bg:#060912;
-  --card:rgba(15,20,32,.72);
-  --card-hover:rgba(24,31,48,.92);
-  --border:rgba(255,255,255,.05);
-  --text:#f3f6fb;
-  --muted:#9aa4b2;
-  --accent:#60a5fa;
-  --radius:18px;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
-  line-height:1.5;
-}
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  background:
-    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.58)),
-    url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?auto=format&fit=crop&w=1920&q=80')
-    center/cover no-repeat;
-  z-index:-2;
-  background-color:#060912;
-  will-change:transform;
-}
-body::after{
-  content:'';
-  position:fixed;
-  inset:0;
-  background:radial-gradient(circle at top left, rgba(96,165,250,.12), transparent 28%);
-  z-index:-1;
-  pointer-events:none;
-}
-@media (prefers-reduced-motion: reduce){
-  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-}
-.app{width:min(1420px,94%);margin:auto;padding:30px 0 44px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:20px}
-.hero h1{font-size:1.9rem;letter-spacing:-1px;margin-bottom:4px}
-.hero p{color:var(--muted);font-size:.92rem}
-.meta{display:flex;gap:10px;flex-wrap:wrap}
-.glass{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-}
-.weather,.clock,.refresh{padding:.82rem 1rem;font-size:.84rem;color:#e8edf4}
-.refresh{cursor:pointer;transition:background .25s ease,transform .2s ease}
-.refresh:hover{background:var(--card-hover)}
-.refresh:active{transform:scale(.98)}
-.search{margin-bottom:18px}
-.search-box{
-  width:100%;padding:1rem 1.1rem;border:none;outline:none;
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius);color:var(--text);font-size:.96rem;
-}
-.search-box::placeholder{color:var(--muted)}
-.top-story{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;overflow:hidden;margin-bottom:18px;padding:22px}
-.top-content{display:flex;flex-direction:column;justify-content:center}
-.top-source{color:var(--accent);font-size:.8rem;margin-bottom:10px;font-weight:600}
-.top-title{font-size:1.55rem;line-height:1.12;font-weight:700;margin-bottom:12px}
-.top-link{color:inherit;text-decoration:none}
-.top-desc{color:var(--muted);font-size:.92rem;line-height:1.5}
-.top-image{
-  width:100%;height:230px;object-fit:cover;border-radius:14px;opacity:.92;
-  background:#111;transition:opacity .3s ease;
-}
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-}
-.card{padding:18px;min-height:170px;contain:content;transition:transform .25s ease,background .25s ease,border-color .25s ease,box-shadow .25s ease}
-.card:hover{transform:translateY(-2px);background:var(--card-hover);border-color:rgba(96,165,250,.18);box-shadow:0 0 0 1px rgba(96,165,250,.05),0 10px 30px rgba(0,0,0,.22)}
-.card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-.icon{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:rgba(255,255,255,.04);font-size:1.05rem}
-.card-title{font-weight:600}
-.card-desc{color:var(--muted);font-size:.78rem;margin-top:2px}
-.headline-main{display:block;color:#fff;text-decoration:none;font-size:.91rem;font-weight:600;line-height:1.4;margin-bottom:12px}
-.headline-main:hover{opacity:.9}
-.headline-small{display:block;color:#d4dbe5;text-decoration:none;font-size:.8rem;line-height:1.45;margin-bottom:10px;opacity:.9}
-.headline-small:hover{color:#fff}
-.skeleton{height:13px;border-radius:999px;margin-bottom:12px;background:linear-gradient(90deg,rgba(255,255,255,.04),rgba(255,255,255,.10),rgba(255,255,255,.04));background-size:200% 100%;animation:shimmer 1.2s infinite}
-@keyframes shimmer{to{background-position:-200% 0}}
-footer{margin-top:30px;text-align:center;color:var(--muted);font-size:.8rem}
-@media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:860px){.top-story{grid-template-columns:1fr}.top-image{height:200px}}
-@media(max-width:640px){.hero h1{font-size:1.45rem}.grid{grid-template-columns:1fr}}
-a:focus,button:focus,[tabindex]:focus{outline:2px solid var(--accent);outline-offset:2px;border-radius:8px}
-a:focus:not(:focus-visible),button:focus:not(:focus-visible){outline:none}
-</style>
-</head>
-<body>
-<div class="app">
-  <header class="topbar">
-    <div class="hero">
-      <h1 id="greeting" aria-live="polite">Buongiorno</h1>
-      <p>8 fonti italiane. Zero rumore.</p>
-    </div>
-    <div class="meta">
-      <div class="weather glass" id="weather" aria-live="polite" aria-label="Meteo Perugia">⛅ Meteo...</div>
-      <div class="clock glass" id="clock" aria-label="Ora corrente">--</div>
-      <div class="refresh glass" onclick="loadAll()" role="button" tabindex="0" aria-label="Aggiorna notizie">Aggiorna</div>
-    </div>
-  </header>
-
-  <section class="search">
-    <form action="https://duckduckgo.com/" method="GET" target="_blank" rel="noopener noreferrer">
-      <input class="search-box" type="text" name="q" placeholder="Cerca con DuckDuckGo..." autocomplete="off" aria-label="Cerca">
-    </form>
-  </section>
-
-  <section class="top-story glass">
-    <div class="top-content">
-      <div class="top-source" id="topSource">Caricamento...</div>
-      <a id="topLink" class="top-link" target="_blank" rel="noopener noreferrer">
-        <div class="top-title" id="topTitle" aria-live="polite">Recupero notizia principale...</div>
-      </a>
-      <div class="top-desc" id="topDesc"></div>
-    </div>
-    <img id="topImage" class="top-image" alt="Top story" loading="lazy" onerror="this.style.display='none'">
-  </section>
-
-  <main class="grid" id="grid" aria-label="Fonti notizie"></main>
-  <footer>Dashboard minimal · GitHub Pages · <time id="lastUpdate"></time></footer>
-</div>
-
-<script>
-/* ================= CONFIG ================= */
-const RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
-const CACHE_HOURS = 5;
-const REFRESH_MS = 1000 * 60 * 60;
-
-// 8 FONTI ITALIANE CON FEED RSS TESTATI E FUNZIONANTI
-const sources = [
-  {
-    name:'ANSA', 
-    url:'https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml', 
-    icon:'📰', 
-    desc:'Ultime notizie'
-  },
-  {
-    name:'PerugiaToday', 
-    url:'https://www.perugiatoday.it/rss', 
-    icon:'🏛️', 
-    desc:'Perugia e Umbria'
-  },
-  {
-    name:'Repubblica Tech', 
-    url:'https://www.repubblica.it/rss/tecnologia/rss2.0.xml', 
-    icon:'💻', 
-    desc:'Tecnologia'
-  },
-  {
-    name:'Tom\'s Hardware', 
-    url:'https://www.tomshw.it/feed/', 
-    icon:'📱', 
-    desc:'Hardware e Tech'
-  },
-  {
-    name:'Ubitennis', 
-    url:'https://www.ubitennis.com/feed/', 
-    icon:'🎾', 
-    desc:'Tennis'
-  },
-  {
-    name:'Innovazione AI', 
-    url:'https://www.zdnet.it/feed/', 
-    icon:'🤖', 
-    desc:'AI e Innovazione'
-  },
-  {
-    name:'Il Sole 24 Ore', 
-    url:'https://www.ilsole24ore.com/rss/notizie.xml', 
-    icon:'📊', 
-    desc:'Economia e Finanza'
-  },
-  {
-    name:'Corriere Salute', 
-    url:'https://www.corriere.it/rss/salute.xml', 
-    icon:'❤️', 
-    desc:'Salute e benessere'
-  }
-];
-
-/* ================= UTILS ================= */
-function greeting(){
-  const h = new Date().getHours();
-  if(h < 6) return 'Buona notte';
-  if(h < 12) return 'Buongiorno';
-  if(h < 18) return 'Buon pomeriggio';
-  return 'Buonasera';
-}
-
-function updateClock(){
-  const now = new Date();
-  document.getElementById('clock').textContent = now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
-  document.getElementById('greeting').textContent = greeting();
-  document.getElementById('lastUpdate').textContent = `agg: ${now.toLocaleDateString('it-IT')}`;
-}
-
-/* ================= WEATHER ================= */
-async function loadWeather(){
-  try{
-    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=43.1107&longitude=12.3908&current=temperature_2m,weather_code&timezone=Europe/Rome');
-    const d = await r.json();
-    const temp = Math.round(d.current.temperature_2m);
-    const code = d.current.weather_code;
-    const map = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',61:'🌧️',71:'❄️',95:'⛈️'};
-    document.getElementById('weather').innerHTML = `<span>${map[code]||'⛅'}</span> <span>${temp}° · Perugia</span>`;
-  }catch{
-    document.getElementById('weather').innerHTML = `<span>⛅</span> <span>Meteo non disp.</span>`;
-  }
-}
-
-/* ================= CACHE ================= */
-function cacheKey(url){ return `rss_${btoa(url)}`; }
-function getCache(url){
-  try{
-    const raw = localStorage.getItem(cacheKey(url));
-    if(!raw) return null;
-    const {items,ts} = JSON.parse(raw);
-    if(Date.now() - ts < CACHE_HOURS * 3600 * 1000) return items;
-  }catch(e){}
-  return null;
-}
-function setCache(url, items){
-  try{ localStorage.setItem(cacheKey(url), JSON.stringify({items, ts: Date.now()})); }catch(e){}
-}
-
-/* ================= SKELETON ================= */
-function skeleton(){ return `<div class="skeleton"></div><div class="skeleton"></div><div class="skeleton"></div>`; }
-
-/* ================= FETCH FEED ================= */
-async function fetchFeed(url){
-  const cached = getCache(url);
-  if(cached) return cached;
-  
-  try{
-    const res = await fetch(RSS_API + encodeURIComponent(url), {signal: AbortSignal.timeout(10000)});
-    const data = await res.json();
-    if(data.status !== 'ok' || !data.items?.length) throw new Error();
-    const items = data.items.slice(0,3);
-    setCache(url, items);
-    return items;
-  }catch(e){
-    console.warn(`Feed fallito: ${url}`, e);
-    throw e;
-  }
-}
-
-/* ================= TOP STORY ================= */
-function setTopStory(item, source){
-  document.getElementById('topSource').textContent = source.name;
-  document.getElementById('topTitle').textContent = item.title;
-  document.getElementById('topLink').href = item.link;
-  const clean = item.description?.replace(/<[^>]*>/g,'')?.slice(0,180);
-  document.getElementById('topDesc').textContent = clean || 'Apri la notizia per leggere di più.';
-  
-  const img = item.thumbnail || item.enclosure?.link;
-  const imgEl = document.getElementById('topImage');
-  if(img){
-    imgEl.src = img;
-    imgEl.style.display = 'block';
-  } else {
-    imgEl.style.display = 'none';
-  }
-}
-
-/* ================= BUILD CARDS ================= */
-async function buildCards(){
-  const grid = document.getElementById('grid');
-  grid.innerHTML = '';
-  sources.forEach((s,i)=>{
-    const card = document.createElement('div');
-    card.className = 'card glass';
-    card.innerHTML = `
-      <div class="card-header">
-        <div class="icon">${s.icon}</div>
-        <div><div class="card-title">${s.name}</div><div class="card-desc">${s.desc}</div></div>
-      </div>
-      <div id="content-${i}">${skeleton()}</div>
-    `;
-    grid.appendChild(card);
-  });
-  
-  const results = await Promise.allSettled(sources.map(s => fetchFeed(s.url)));
-  let topCandidates = [];
-  
-  results.forEach((result,i)=>{
-    const target = document.getElementById(`content-${i}`);
-    if(result.status !== 'fulfilled'){
-      target.innerHTML = `<div style="color:var(--muted);font-size:.82rem;line-height:1.4">Feed temporaneamente non disponibile<br><small style="opacity:.7">Riprova più tardi</small></div>`;
-      return;
+  <style>
+    /* ===== RESET & VARIABLES ===== */
+    :root {
+      --bg: #060912;
+      --card: rgba(15, 20, 32, 0.72);
+      --card-hover: rgba(24, 31, 48, 0.92);
+      --border: rgba(255, 255, 255, 0.05);
+      --text: #f3f6fb;
+      --muted: #9aa4b2;
+      --accent: #60a5fa;
+      --radius: 18px;
     }
-    const items = result.value;
-    const [first,...rest] = items;
-    target.innerHTML = `
-      <a class="headline-main" href="${first.link}" target="_blank" rel="noopener noreferrer">${first.title}</a>
-      ${rest.map(it => `<a class="headline-small" href="${it.link}" target="_blank" rel="noopener noreferrer">${it.title}</a>`).join('')}
-    `;
-    topCandidates.push({item:first, source:sources[i]});
-  });
-  
-  if(topCandidates.length){
-    topCandidates.sort((a,b) => {
-      const da = a.item.pubDate ? new Date(a.item.pubDate).getTime() : 0;
-      const db = b.item.pubDate ? new Date(b.item.pubDate).getTime() : 0;
-      return db - da;
-    });
-    setTopStory(topCandidates[0].item, topCandidates[0].source);
-  }
-}
 
-/* ================= INIT ================= */
-function loadAll(){
-  updateClock();
-  loadWeather();
-  buildCards();
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-document.addEventListener('DOMContentLoaded', ()=>{
-  loadAll();
-  setInterval(updateClock, 60000);
-  setInterval(buildCards, REFRESH_MS);
-});
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
 
-document.querySelector('.refresh')?.addEventListener('keydown', e=>{
-  if(e.key==='Enter'||e.key===' '){ e.preventDefault(); loadAll(); }
-});
-</script>
-</body>
-</html>
+    /* ===== BACKGROUND (FALLBACK PERFORMANTE) ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.58)),
+        url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')
+        center/cover no-repeat;
+      z-index: -2;
+      will-change: transform;
+    }
+
+    /* ===== LAYOUT ===== */
+    .app {
+      max-width: 1420px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.5rem, 4vw, 1.9rem);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 0.25rem;
+    }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .meta {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    /* ===== GLASS EFFECT (CON FALLBACK) ===== */
+    .glass {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    /* Fallback per browser che non supportano backdrop-filter */
+    @supports not (backdrop-filter: blur(1px)) {
+      .glass {
+        background: rgba(15, 20, 32, 0.9);
+      }
+    }
+
+    /* ===== COMPONENTI ===== */
+    .weather, .clock, .refresh {
+      padding: 0.6rem 0.8rem;
+      font-size: 0.85rem;
+      color: #e8edf4;
+      cursor: default;
+    }
+
+    .refresh {
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .refresh:hover {
+      background: var(--card-hover);
+    }
+
+    .refresh:active {
+      transform: scale(0.98);
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: none;
+      outline: none;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-box::placeholder {
+      color: var(--muted);
+    }
+
+    /* ===== TOP STORY ===== */
+    .top-story {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      padding: 1.5rem;
+    }
+
+    @media (max-width: 860px) {
+      .top-story {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .top-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .top-source {
+      color: var(--accent);
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .top-title {
+      font-size: clamp(1.2rem, 3vw, 1.55rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+
+    .top-link {
+      color: inherit;
+      text-decoration: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .top-link:hover {
+      opacity: 0.85;
+    }
+
+    .top-desc {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .top-image {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #111;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 860px) {
+      .top-image {
+        height: 200px;
+      }
+    }
+
+    /* ===== GRID NOTIZIE ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      padding: 1.2rem;
+      min-height: 170px;
+      transition: all 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+      background: var(--card-hover);
+      border-color: rgba(96, 165, 250, 0.18);
+      box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.05), 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 1.1rem;
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .card-desc {
+      color: var(--muted);
+      font-size: 0.75rem;
+      margin-top: 0.2rem;
+    }
+
+    .headline-main {
+      display: block;
+      color: #fff;
+     
