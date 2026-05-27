@@ -29,7 +29,6 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
-/* SFONDO PURO CSS - ZERO IMMAGINI */
 body::before{
   content:'';
   position:fixed;
@@ -55,12 +54,28 @@ body::after{
   *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
 
-/* ALLARGATO A 1440px PER GRIGLIA 4x2 LEGGIBILE */
-.app{width:min(1440px,96%);margin:auto;padding:30px 0 44px}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:24px}
-.hero h1{font-size:1.85rem;letter-spacing:-0.5px;margin-bottom:4px;font-weight:700}
-.hero p{color:var(--muted);font-size:.88rem}
-.meta{display:flex;gap:10px;flex-wrap:wrap}
+/* ALLARGATO A 1600px PER SCHEDE PIU LARGHE */
+.app{width:min(1600px,97%);margin:auto;padding:30px 0 44px}
+.topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap;margin-bottom:24px}
+.hero{flex:1}
+.hero h1{font-size:1.85rem;letter-spacing:-0.5px;margin-bottom:8px;font-weight:700}
+.hero p{color:var(--muted);font-size:.88rem; margin-bottom:16px;}
+
+/* PULSANTI QUICK LINKS */
+.quicklinks{display:flex;gap:10px;flex-wrap:wrap}
+.ql-btn{
+  padding:8px 16px;
+  font-size:.82rem;
+  color:var(--text);
+  text-decoration:none;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:10px;
+  transition:background .2s ease, border-color .2s ease;
+}
+.ql-btn:hover{background:var(--card-hover);border-color:rgba(96,165,250,.2)}
+
+.meta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .glass{
   background:var(--card);
   border:1px solid var(--border);
@@ -68,22 +83,28 @@ body::after{
   backdrop-filter:blur(16px) saturate(180%);
   -webkit-backdrop-filter:blur(16px) saturate(180%);
 }
-.weather,.clock,.refresh{padding:.75rem 1rem;font-size:.82rem;color:#e8edf4}
-.refresh{cursor:pointer;transition:background .2s ease,transform .15s ease}
+.weather,.clock,.refresh{padding:.8rem 1.1rem;color:#e8edf4}
+
+/* OROLOGIO INGRANDITO */
+.clock{font-size:1.4rem;font-weight:700;letter-spacing:1px}
+.weather{font-size:.82rem;line-height:1.4}
+.refresh{cursor:pointer;font-size:.82rem;transition:background .2s ease,transform .15s ease}
 .refresh:hover{background:var(--card-hover)}
 .refresh:active{transform:scale(.97)}
 
-.search{margin-bottom:22px}
+.search{margin-bottom:24px}
 .search-box{
-  width:100%;padding:1rem 1.2rem;border:none;outline:none;
-  background:var(--card);border:1px solid var(--border);
-  border-radius:var(--radius);color:var(--text);font-size:.95rem;
+  width:100%;padding:1.1rem 1.3rem;border:none;outline:none;
+  /* SFONDO GRIGIO SCURO PER CONTRASTO */
+  background:#151a28;
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:var(--radius);color:var(--text);font-size:1rem;
   transition: border-color 0.2s ease;
 }
-.search-box:focus{border-color:rgba(96,165,250,0.3)}
+.search-box:focus{border-color:rgba(96,165,250,0.5)}
 .search-box::placeholder{color:var(--muted)}
 
-.top-story{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;overflow:hidden;margin-bottom:22px;padding:24px}
+.top-story{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;overflow:hidden;margin-bottom:24px;padding:24px}
 .top-content{display:flex;flex-direction:column;justify-content:center}
 .top-source{color:var(--accent);font-size:.78rem;margin-bottom:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
 .top-title{font-size:1.55rem;line-height:1.15;font-weight:700;margin-bottom:14px}
@@ -95,11 +116,11 @@ body::after{
   background:rgba(255,255,255,0.03);transition:opacity .3s ease;
 }
 
-/* GRIGLIA 4 COLONNE */
+/* GRIGLIA 4 COLONNE CON GAP RIDOTTO PER ALLARGARE LE SCHEDE */
 .grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:16px;
+  gap:14px;
 }
 .card{padding:20px;min-height:180px;contain:content;transition:transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease}
 .card:hover{transform:translateY(-3px);background:var(--card-hover);border-color:rgba(96,165,250,.15);box-shadow:0 12px 40px rgba(0,0,0,.25)}
@@ -108,7 +129,6 @@ body::after{
 .card-title{font-weight:700;font-size:.95rem}
 .card-desc{color:var(--muted);font-size:.76rem;margin-top:2px}
 
-/* FONT LEGGIBILI */
 .headline-main{display:block;color:#fff;text-decoration:none;font-size:.92rem;font-weight:600;line-height:1.5;margin-bottom:14px;transition:color 0.2s}
 .headline-main:hover{color:var(--accent)}
 .headline-small{display:block;color:#d4dbe5;text-decoration:none;font-size:.82rem;line-height:1.5;margin-bottom:10px;opacity:.85;transition:color 0.2s}
@@ -119,7 +139,6 @@ body::after{
 
 footer{margin-top:36px;text-align:center;color:var(--muted);font-size:.75rem;opacity:.7}
 
-/* RESPONSIVE */
 @media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:860px){.top-story{grid-template-columns:1fr}.top-image{height:200px}}
 @media(max-width:640px){.hero h1{font-size:1.4rem}.grid{grid-template-columns:1fr}}
@@ -137,6 +156,14 @@ a:focus-visible,button:focus-visible,[tabindex]:focus-visible{
     <div class="hero">
       <h1 id="greeting" aria-live="polite">Buongiorno</h1>
       <p>8 fonti italiane · Zero tracking</p>
+      <!-- 5 PULSANTI QUICK LINK -->
+      <nav class="quicklinks">
+        <a href="#" class="ql-btn">Link 1</a>
+        <a href="#" class="ql-btn">Link 2</a>
+        <a href="#" class="ql-btn">Link 3</a>
+        <a href="#" class="ql-btn">Link 4</a>
+        <a href="#" class="ql-btn">Link 5</a>
+      </nav>
     </div>
     <div class="meta">
       <div class="weather glass" id="weather" aria-live="polite" aria-label="Meteo">⛅ --°</div>
@@ -173,16 +200,18 @@ const RSS_API = 'https://api.rss2json.com/v1/api.json?rss_url=';
 const CACHE_HOURS = 4;
 const REFRESH_MS = 1000 * 60 * 60;
 
+/* FONTI RIORDINATE: SOPRA NOTIZIE SERIE, SOTTO TECH/SPORT */
 const sources = [
+  /* RIGA 1: NOTIZIE SERIE */
   { name:'ANSA', url:'https://www.ansa.it/sito/notizie/topnews/topnews_rss.xml', icon:'📰', desc:'Ultime notizie' },
   { name:'PerugiaToday', url:'https://www.perugiatoday.it/rss', icon:'🏛️', desc:'Perugia e Umbria' },
-  { name:'Repubblica Tech', url:'https://www.repubblica.it/rss/tecnologia/rss2.0.xml', icon:'💻', desc:'Tecnologia' },
-  { name:"Tom's Hardware", url:'https://www.tomshw.it/feed/', icon:'📱', desc:'Hardware e Tech' },
+  { name:'Umbria24', url:'https://www.umbria24.it/feed/', icon:'🗺️', desc:'Notizie dall\'Umbria' },
+  { name:'Il Post', url:'https://www.ilpost.it/feed/', icon:'✉️', desc:'Spiegazione e attualità' },
+  /* RIGA 2: TECH / SPORT / CURIOSITÀ */
+  { name:'Tom\'s Hardware', url:'https://www.tomshw.it/feed/', icon:'📱', desc:'Hardware e Tech' },
   { name:'Ubitennis', url:'https://www.ubitennis.com/feed/', icon:'🎾', desc:'Tennis' },
-  /* SOSTITUITO ZDNET CON AGENDA DIGITALE (FEED PIU STABILE) */
   { name:'Agenda Digitale', url:'https://www.agendadigitale.eu/feed/', icon:'🤖', desc:'Innovazione e AI' },
-  { name:'Rainews', url:'https://www.rainews.it/rss/rainews.xml', icon:'🌍', desc:'Cronaca e Mondo' },
-  { name:'Corriere Salute', url:'https://www.corriere.it/rss/salute.xml', icon:'❤️', desc:'Salute e benessere' }
+  { name:'Wired Italia', url:'https://www.wired.it/feed/', icon:'💻', desc:'Tecnologia e Futuro' }
 ];
 
 /* ================= UTILITIES ================= */
@@ -200,17 +229,31 @@ function updateClock(){
   document.getElementById('greeting').textContent = greeting();
 }
 
-/* ================= METEO ================= */
+/* ================= METEO CON PREVISIONE DOMANI ================= */
 async function loadWeather(){
   try{
-    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=43.1107&longitude=12.3908&current=temperature_2m,weather_code&timezone=Europe/Rome');
+    // Aggiunto daily=weather_code,temperature_2m_max,temperature_2m_min
+    const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=43.1107&longitude=12.3908&current=temperature_2m,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=Europe/Rome&forecast_days=2');
     const d = await r.json();
     const temp = Math.round(d.current.temperature_2m);
     const code = d.current.weather_code;
     const map = {0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',61:'🌧️',71:'❄️',80:'🌧️',95:'⛈️'};
-    document.getElementById('weather').innerHTML = `<span>${map[code]||'⛅'}</span> <span>${temp}° · Perugia</span>`;
+    
+    // Dati di domani (indice 1 dell'array daily)
+    const tomorrowCode = d.daily.weather_code[1];
+    const tomorrowMax = Math.round(d.daily.temperature_2m_max[1]);
+    const tomorrowMin = Math.round(d.daily.temperature_2m_min[1]);
+
+    document.getElementById('weather').innerHTML = `
+      <div style="text-align:center">
+        <div style="font-size:1.1rem"><span>${map[code]||'⛅'}</span> ${temp}° · Perugia</div>
+        <div style="font-size:.72rem;color:var(--muted);margin-top:4px;border-top:1px solid var(--border);padding-top:4px">
+          Dom: ${map[tomorrowCode]||'⛅'} ${tomorrowMax}°/${tomorrowMin}°
+        </div>
+      </div>
+    `;
   }catch{
-    document.getElementById('weather').innerHTML = `⛅ N/D`;
+    document.getElementById('weather').innerHTML = `<div style="text-align:center"><span>⛅</span> <span>N/D</span></div>`;
   }
 }
 
